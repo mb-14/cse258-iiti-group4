@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+{% block body %}
+ <h2>{{doc.title}}</h2>
+ Amount:{{doc.amount}}<br>
+ Initiated by:{{name}}<br>
+ Initiated on:{{ doc.init_date.strftime('%Y-%m-%d %H:%M') }} 
+{% endblock %}
