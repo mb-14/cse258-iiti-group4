@@ -1,14 +1,16 @@
 ##Web DMS service for IITI
 
-Team Members:
+###Team Members:
 
-1)Miroojin Bakshi
-2)Ravi Shankar
-3)Surya Teja 
-4)Vikram Patel
+1. Miroojin Bakshi
+2. Ravi Shankar
+3. Surya Teja 
+4. Vikram Patel
 
-Instructions:
-'''bash
-pip install -r requirements.txt
-python main.py
+###Instructions:
+
+'''sh
+$ sudo pip install -r requirements.txt
+
+$ python main.py
 '''
