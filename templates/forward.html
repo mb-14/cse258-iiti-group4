@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block body %}
+  <form role="form" class="form-horizontal" action="" method=post>
+	<h2 class="col-sm-offset-2">Forward Document</h2>
+	 <div class="col-sm-offset-2">
+	 Document: {{doc.title}}<br>
+	 Amount: {{doc.amount}}<br>
+<br>
+	</div>		  
+	<div class="form-group">
+		  <label for="recipient" class="col-sm-2 control-label">Forward To (Email-ID):</label>
+		<div class="col-sm-4">
+          <input type="text" id="recipient" name="recipient" class="form-control"
+			 placeholder="Enter username" required>
+    </div></div>   
+         <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-success">Forward</button>
+    </div>
+  </div>
+
+  </form>
+{% endblock %}

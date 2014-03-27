@@ -4,16 +4,24 @@
     <h2>All Documents</h2>
     <table class="table table-hover">
       <tr>
-        <th>#
+        <th>ID
         <th>Title
         <th>Date
         <th>Amount
+		<th>Action
       {%- for doc in docs %}
       <tr>
         <td><a href="/doc/{{ doc.id }}">{{ doc.id }}</a>
         <td>{{ doc.title }}
         <td>{{ doc.init_date.strftime('%Y-%m-%d %H:%M') }}
         <td>{{ doc.amount }}</td>
+		{%- if doc.can_forward(current) %}		
+		<td><a href="/forward/{{doc.id}}" class="btn btn-large btn-primary">Forward</a></td>
+		{%- elif doc.can_accept(current) %} 
+		<td><form action="" method=post class="form-horizontal"><button id="accept" name="accept" value="{{ doc.id }}" type="submit" class="btn btn-success">Accept</button></form></td>	
+		{%- else %}
+		<td></td>
+		{%- endif %}
       {%- endfor %}
     </table>
     <p>
