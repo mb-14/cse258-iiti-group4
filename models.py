@@ -47,24 +47,22 @@ class Docs(db.Model):
     init_date = db.Column(db.DateTime) ## date initiated
     user_id =  db.Column(db.Integer, db.ForeignKey('users.id')) ## initiated by
     last_user_id = db.Column(db.Integer, db.ForeignKey('users.id')) ## last recieved by
-    accepted = db.Column(db.Boolean) 
+    accepted = db.Column(db.Integer) 
  
     def __init__(self, title, amount):
         self.title = title
         self.amount = amount
         self.init_date = datetime.utcnow()
-        self.accepted = False
+        self.accepted = 0
     
     def can_forward(self, current):
-        if(self.user_id == current and self.last_user_id == self.user_id): #if current user is the initiator
-            return True
-        if(self.last_user_id == current and self.accepted): #if current user is the last user to recieve and has accept
+        if(self.accepted%2 == 0 and current == self.last_user_id): 
             return True
         else:
             return False
 
     def can_accept(self, current):
-        if(self.last_user_id == current and not self.accepted):
+        if(self.last_user_id == current and not self.accepted%2==0):
             return True
         else:
             return False

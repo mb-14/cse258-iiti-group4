@@ -11,8 +11,9 @@ def index():
         if request.method == 'POST':
             doc_id = request.form['accept']
             doc_item = Docs.query.get(doc_id)
-            doc_item.accepted = True
+            doc_item.accepted += 1
             db.session.commit()
+            flash('Document accepted')
             redirect(url_for('index'))
         return render_template('index.html',docs=Docs.query.order_by(Docs.init_date.desc()).all(),current=g.user.id)
     else:
@@ -76,7 +77,7 @@ def forward(doc_id):
         flash('Recipient email ID does not exist' , 'error')
         return redirect(url_for('forward',doc_id=doc_id))
     doc_item.last_user_id = registered_user.id
-    doc_item.accepted = False  ## Set accepted to false once forwarded 
+    doc_item.accepted += 1
     db.session.commit()
     flash('Forwarded document successfully')
     return redirect(url_for('index'))
