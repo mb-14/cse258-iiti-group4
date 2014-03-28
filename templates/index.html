@@ -2,13 +2,14 @@
 {% block body %}
 <div id="main" class="container">
     <h2>All Documents</h2>
-    <table class="table table-hover">
+    <table id="doc_table" class="table table-hover">
       <tr>
         <th>ID
         <th>Title
         <th>Date
         <th>Amount
 		<th>Action
+	  </tr>
       {%- for doc in docs %}
       <tr>
         <td><a href="/doc/{{ doc.id }}">{{ doc.id }}</a>
@@ -22,11 +23,20 @@
 		{%- else %}
 		<td></td>
 		{%- endif %}
+		</tr>
       {%- endfor %}
     </table>
+   <div class="pagination"></div>
     <p>
       <a href="{{ url_for('new') }}" class="btn btn-large btn-primary">New Document</a>
 
   
 </div>
+<script>
+$(document).ready(function() { // assuming the table will exist at document.ready
+
+  $('#doc_table').tableNav();
+
+});
+</script>
 {% endblock %}
