@@ -77,4 +77,19 @@ class Docs(db.Model):
     
     def log_forward(self, date, remark):
         self.log += date+'|'+remark+'#'
-            
+    
+    def get_init(self):
+        return User.query.get(self.user_id).username
+
+    def get_init_department(self):
+        return User.query.get(self.user_id).department
+
+    def get_last(self):
+        return User.query.get(self.last_user_id).username
+
+    def get_last_department(self):
+        return User.query.get(self.last_user_id).department
+
+    def get_last_date(self):
+        return self.log.split('#')[-2].split('|')[1]
+                
