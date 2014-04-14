@@ -1,5 +1,6 @@
 from flask import session, request, flash, url_for, redirect, render_template, abort ,g
 from app import app
+from datetime import datetime
 from models import *
 from flask.ext.login import login_user , logout_user , current_user , login_required
 
@@ -12,6 +13,8 @@ def index():
             doc_id = request.form['accept']
             doc_item = Docs.query.get(doc_id)
             doc_item.accepted += 1
+            doc_item.last_user_id = g.user.id
+            doc_item.log_approve(g.user.department,datetime.now().strftime('%d/%m/%Y %H:%M'))
             db.session.commit()
             flash('Document accepted')
             redirect(url_for('index'))
@@ -30,6 +33,8 @@ def new():
         else:
             doc = Docs(request.form['title'], request.form['amount'])
             doc.last_user_id = doc.user_id = g.user.id
+            
+            doc.log_approve(g.user.department,'NA')
             db.session.add(doc)
             db.session.commit()
             flash('Document was successfully created')
@@ -72,12 +77,13 @@ def forward(doc_id):
         return render_template('forward.html',doc=doc_item)
     
     recipient = request.form['recipient']
+    remark = request.form['remark']
     registered_user = User.query.filter_by(email=recipient).first()
     if registered_user is None:
         flash('Recipient email ID does not exist' , 'error')
         return redirect(url_for('forward',doc_id=doc_id))
-    doc_item.last_user_id = registered_user.id
     doc_item.accepted += 1
+    doc_item.log_forward(datetime.now().strftime('%d/%m/%Y %H:%M'),remark)
     db.session.commit()
     flash('Forwarded document successfully')
     return redirect(url_for('index'))

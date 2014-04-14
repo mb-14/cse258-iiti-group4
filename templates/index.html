@@ -6,16 +6,26 @@
       <tr>
         <th>ID
         <th>Title
-        <th>Date
         <th>Amount
+		<th>Initiated by
+        <th>Department
+        <th>Date
+		<th>Last recieved by
+		<th>Department
+        <th>Date
 		<th>Action
 	  </tr>
       {%- for doc in docs %}
       <tr>
         <td><a href="/doc/{{ doc.id }}">{{ doc.id }}</a>
         <td>{{ doc.title }}
-        <td>{{ doc.init_date.strftime('%Y-%m-%d %H:%M') }}
         <td>{{ doc.amount }}</td>
+        <td>{{ doc.get_init()}}
+		<td>{{ doc.get_init_department()}}
+        <td>{{ doc.init_date.strftime('%Y-%m-%d %H:%M') }}
+        <td>{{ doc.get_last()}}
+        <td>{{ doc.get_last_department()}}
+        <td>{{ doc.get_last_date()}}
 		{%- if doc.can_forward(current) %}		
 		<td><a href="/forward/{{doc.id}}" class="btn btn-large btn-primary">Forward</a></td>
 		{%- elif doc.can_accept(current) %} 

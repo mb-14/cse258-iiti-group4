@@ -35,6 +35,9 @@ class User(db.Model):
 
     def get_id(self):
         return unicode(self.id)
+    
+    def get_department(self):
+        return self.department
 
     def __repr__(self):
         return '<User %r>' % (self.username)
@@ -47,13 +50,15 @@ class Docs(db.Model):
     init_date = db.Column(db.DateTime) ## date initiated
     user_id =  db.Column(db.Integer, db.ForeignKey('users.id')) ## initiated by
     last_user_id = db.Column(db.Integer, db.ForeignKey('users.id')) ## last recieved by
-    accepted = db.Column(db.Integer) 
+    accepted = db.Column(db.Integer)
+    log = db.Column(db.Text) 
  
     def __init__(self, title, amount):
         self.title = title
         self.amount = amount
-        self.init_date = datetime.utcnow()
+        self.init_date = datetime.now()
         self.accepted = 0
+        self.log = ''
     
     def can_forward(self, current):
         if(self.accepted%2 == 0 and current == self.last_user_id): 
@@ -67,5 +72,24 @@ class Docs(db.Model):
         else:
             return False
 
+    def log_approve(self, department , date):
+        self.log += department+'|'+date+'|'
+    
+    def log_forward(self, date, remark):
+        self.log += date+'|'+remark+'#'
+    
+    def get_init(self):
+        return User.query.get(self.user_id).username
 
-            
+    def get_init_department(self):
+        return User.query.get(self.user_id).department
+
+    def get_last(self):
+        return User.query.get(self.last_user_id).username
+
+    def get_last_department(self):
+        return User.query.get(self.last_user_id).department
+
+    def get_last_date(self):
+        return self.log.split('#')[-2].split('|')[1]
+                
