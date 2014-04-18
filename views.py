@@ -13,7 +13,6 @@ def index():
             doc_id = request.form['accept']
             doc_item = Docs.query.get(doc_id)
             doc_item.accepted += 1
-            doc_item.last_user_id = g.user.id
             doc_item.log_approve(g.user.department,datetime.now().strftime('%d/%m/%Y %H:%M'))
             db.session.commit()
             flash('Document accepted')
@@ -85,6 +84,7 @@ def forward(doc_id):
         flash('Recipient email ID does not exist' , 'error')
         return redirect(url_for('forward',doc_id=doc_id))
     doc_item.accepted += 1
+    doc_item.last_user_id = registered_user.id
     doc_item.log_forward(datetime.now().strftime('%d/%m/%Y %H:%M'),remark)
     db.session.commit()
     flash('Forwarded document successfully')
