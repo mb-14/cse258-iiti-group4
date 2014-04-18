@@ -15,7 +15,7 @@
       {%- for row in doc.log.strip().split('#') if row%}
       <tr>
 			{%- for item in row.split('|') %}
-        <td>{{ item }}</td>
+        <td><div style="width: 200px; word-wrap: break-word">{{ item }}</div></td>
        {%- endfor %} 
       {%- endfor %}
     </table>
