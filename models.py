@@ -8,12 +8,14 @@ class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer , primary_key=True)
     username = db.Column('username', db.String(20), unique=True , index=True)
+    fullname = db.Column('fullname', db.String(50), index=True)
     password = db.Column('password' , db.String(250))
     department = db.Column('department' , db.String(250))
     email = db.Column('email',db.String(50),unique=True , index=True)
 
-    def __init__(self , username ,password , department, email):
+    def __init__(self , username, fullname, password , department, email):
         self.username = username
+        self.fullname = fullname
         self.set_password(password)
         self.email = email
         self.department = department

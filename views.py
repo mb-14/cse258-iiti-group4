@@ -47,7 +47,7 @@ def new():
 @login_required
 def show(doc_id):
     doc_item = Docs.query.get(doc_id)
-    return render_template('view.html',doc=doc_item,name=User.query.get(doc_item.user_id).username)
+    return render_template('view.html',doc=doc_item,name=User.query.get(doc_item.user_id).fullname)
 
 @app.route('/login',methods=['GET','POST'])
 def login():
@@ -55,11 +55,12 @@ def login():
         return render_template('login.html')
     
     username = request.form['username']
+    email = request.form['username']
     password = request.form['password']
     remember_me = False
     if 'remember_me' in request.form:
         remember_me = True
-    registered_user = User.query.filter_by(username=username).first()
+    registered_user = User.query.filter_by(username=username).first() or User.query.filter_by(email=email).first()
     if registered_user is None:
         flash('Username is invalid' , 'error')
         return redirect(url_for('login'))
@@ -77,8 +78,9 @@ def forward(doc_id):
         return render_template('forward.html',doc=doc_item)
     
     recipient = request.form['recipient']
+    fullname = request.form['recipient']
     remark = request.form['remark']
-    registered_user = User.query.filter_by(email=recipient).first()
+    registered_user = User.query.filter_by(email=recipient).first() or User.query.filter_by(fullname=recipient).first()
     if registered_user is None:
         flash('Recipient email ID does not exist' , 'error')
         return redirect(url_for('forward',doc_id=doc_id))

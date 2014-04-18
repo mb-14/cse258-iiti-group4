@@ -9,7 +9,7 @@ class AdminView(BaseView):
     def register(self):
        if request.method == 'GET':
            return self.render('register.html')
-       user = User(request.form['username'] , request.form['password'],request.form['department'],request.form['email'])
+       user = User(request.form['username'] ,request.form['fullname'], request.form['password'],request.form['department'],request.form['email'])
        db.session.add(user)
        db.session.commit()
        flash('User successfully registered')
