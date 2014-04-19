@@ -12,13 +12,15 @@ class User(db.Model):
     password = db.Column('password' , db.String(250))
     department = db.Column('department' , db.String(250))
     email = db.Column('email',db.String(50),unique=True , index=True)
+    is_admin = db.Column(db.Boolean)
 
-    def __init__(self , username, fullname, password , department, email):
+    def __init__(self , username, fullname, password , department, email, is_admin=False):
         self.username = username
         self.fullname = fullname
         self.set_password(password)
         self.email = email
         self.department = department
+        self.is_admin = is_admin
 
     def set_password(self , password):
         self.password = generate_password_hash(password)
@@ -28,6 +30,9 @@ class User(db.Model):
 
     def is_authenticated(self):
         return True
+    
+    def is_administrator(self):
+        return self.is_admin
 
     def is_active(self):
         return True

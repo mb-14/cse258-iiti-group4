@@ -1,3 +1,7 @@
 #!/usr/bin/python
-from models import db
+from models import *
 db.create_all()
+##change later and remove
+user = User('admin' ,'Administrator', 'admin' , 'Admin' , 'admin@iiti.ac.in', True)
+db.session.add(user)
+db.session.commit()

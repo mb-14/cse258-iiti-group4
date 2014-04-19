@@ -3,6 +3,7 @@
 <div id="main" class="container">
     <h2>All Documents</h2>
 <button type="button" class="reset btn btn-primary" data-column="0" data-filter=""><i class="icon-white icon-refresh glyphicon glyphicon-refresh"></i> Reset filters</button>
+ <a href="{{ url_for('new') }}" class="btn btn-large btn-success">New Document</a>
 <br><br>
     <table id="doc_table" class="tablesorter">
 <thead>    
@@ -62,7 +63,7 @@
     </table>
    <div class="pagination"></div>
     <p>
-      <a href="{{ url_for('new') }}" class="btn btn-large btn-primary">New Document</a>
+     
 
   
 </div>
