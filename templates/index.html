@@ -25,7 +25,7 @@
         <td>{{ doc.init_date.strftime('%d/%m/%Y %H:%M') }}
         <td>{{ doc.get_last()}}
         <td>{{ doc.get_last_department()}}
-        <td>
+        <td>{{ doc.get_last_date() }}
 		{%- if doc.can_forward(current) %}		
 		<td><a href="/forward/{{doc.id}}" class="btn btn-large btn-primary">Forward</a></td>
 		{%- elif doc.can_accept(current) %} 

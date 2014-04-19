@@ -52,6 +52,7 @@ class Docs(db.Model):
     init_date = db.Column(db.DateTime) ## date initiated
     user_id =  db.Column(db.Integer, db.ForeignKey('users.id')) ## initiated by
     last_user_id = db.Column(db.Integer, db.ForeignKey('users.id')) ## last recieved by
+    last_approved = db.Column(db.Integer, db.ForeignKey('users.id'))  ##last approved by
     accepted = db.Column(db.Integer)
     log = db.Column(db.Text) 
  
@@ -81,17 +82,22 @@ class Docs(db.Model):
         self.log += date+'|'+remark+'#'
     
     def get_init(self):
-        return User.query.get(self.user_id).username
+        return User.query.get(self.user_id).fullname
 
     def get_init_department(self):
         return User.query.get(self.user_id).department
 
     def get_last(self):
-        return User.query.get(self.last_user_id).username
+        return User.query.get(self.last_approved).fullname
 
     def get_last_department(self):
-        return User.query.get(self.last_user_id).department
+        return User.query.get(self.last_approved).department
 
     def get_last_date(self):
-        return self.log.split('#')[-2].split('|')[1]
-                
+        s = self.log.split('#')
+        if(len(s) == 1 or not s[1]):
+            return s[0].split('|')[1]
+        elif(len(s) == 2 and s[1]):
+            return s[1].split('|')[1]
+        else:
+            return s[-2].split('|')[1]        

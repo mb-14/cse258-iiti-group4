@@ -13,6 +13,7 @@ def index():
             doc_id = request.form['accept']
             doc_item = Docs.query.get(doc_id)
             doc_item.accepted += 1
+            doc_item.last_approved = g.user.id
             doc_item.log_approve(g.user.department,datetime.now().strftime('%d/%m/%Y %H:%M'))
             db.session.commit()
             flash('Document accepted')
@@ -32,7 +33,7 @@ def new():
         else:
             doc = Docs(request.form['title'], request.form['amount'])
             doc.last_user_id = doc.user_id = g.user.id
-            
+            doc.last_approved = doc.last_user_id
             doc.log_approve(g.user.department,'NA')
             db.session.add(doc)
             db.session.commit()

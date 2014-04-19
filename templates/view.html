@@ -14,7 +14,7 @@
         <th>Remarks
       {%- for row in doc.log.strip().split('#') if row%}
       <tr>
-			{%- for item in row.split('|') %}
+			{%- for item in row.split('|') if item %}
         <td><div style="width: 200px; word-wrap: break-word">{{ item }}</div></td>
        {%- endfor %} 
       {%- endfor %}
