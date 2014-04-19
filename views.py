@@ -31,7 +31,7 @@ def new():
         elif not request.form['amount']:
             flash('Amount is required', 'error')
         else:
-            doc = Docs(request.form['title'], request.form['amount'])
+            doc = Docs(request.form['title'], request.form['amount'], request.form['desc'])
             doc.last_user_id = doc.user_id = g.user.id
             doc.last_approved = doc.last_user_id
             doc.log_approve(g.user.department,'NA')

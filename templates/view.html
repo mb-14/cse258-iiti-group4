@@ -3,7 +3,8 @@
  <h2>{{doc.title}}</h2>
  <b>Amount:</b> {{doc.amount}}<br>
  <b>Initiated by:</b> {{name}}<br>
- <b>Initiated on:</b> {{ doc.init_date.strftime('%d/%m/%y %H:%M') }} 
+ <b>Initiated on:</b> {{ doc.init_date.strftime('%d/%m/%y %H:%M') }} <br>
+ <b>Description:</b><div style="width: 500px; word-wrap: break-word"> {{doc.desc}} </div>
  <br><br>
 
  <table id="doc_table" class="table table-bordered ">

@@ -54,14 +54,16 @@ class Docs(db.Model):
     last_user_id = db.Column(db.Integer, db.ForeignKey('users.id')) ## last recieved by
     last_approved = db.Column(db.Integer, db.ForeignKey('users.id'))  ##last approved by
     accepted = db.Column(db.Integer)
-    log = db.Column(db.Text) 
+    log = db.Column(db.Text)
+    desc = db.Column(db.Text) 
  
-    def __init__(self, title, amount):
+    def __init__(self, title, amount, desc):
         self.title = title
         self.amount = amount
         self.init_date = datetime.now()
         self.accepted = 0
         self.log = ''
+        self.desc = desc
     
     def can_forward(self, current):
         if(self.accepted%2 == 0 and current == self.last_user_id): 
