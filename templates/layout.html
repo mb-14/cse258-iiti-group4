@@ -25,9 +25,10 @@ body {
 				</div>
 				<div class="nav-collapse">
 					<ul class="nav navbar-nav">
-						<li {% if request.path == "/" %}class="active"{% endif %}><a href="/">Home</a></li>
-						{% if g.user.is_authenticated()%}
-							<li {% if request.path == "/new" %}class="active"{% endif %}><a href="/new">New Document</a></li>
+					   {% if g.user.is_authenticated()%}
+						<li {% if request.path == "/" %}class="active"{% endif %}><a href="/">My Documents</a></li>
+                        <li {% if request.path == "/all" %}class="active"{% endif %}><a href="/all">All Documents</a></li>
+					    <li {% if request.path == "/new" %}class="active"{% endif %}><a href="/new">New Document</a></li>
                         {% endif %}
 					</ul>
 					<ul class="nav navbar-nav navbar-right">

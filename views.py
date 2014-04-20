@@ -5,6 +5,23 @@ from models import *
 from flask.ext.login import login_user , logout_user , current_user , login_required
 
 
+@app.route('/all', methods=['GET', 'POST'])
+@login_required
+def alldocs():
+    if g.user.is_authenticated():
+        if request.method == 'POST':
+            doc_id = request.form['accept']
+            doc_item = Docs.query.get(doc_id)
+            doc_item.accepted += 1
+            doc_item.last_approved = g.user.id
+            doc_item.log_approve(g.user.department,datetime.now().strftime('%b %d, %G %H:%M %p'))
+            db.session.commit()
+            flash('Document accepted')
+            redirect(url_for('alldocs'))
+        return render_template('alldocs.html',docs=Docs.query.all(),current=g.user.id)
+    else:
+        return redirect(url_for('login'))	
+
 @app.route('/', methods=['GET', 'POST'])
 @login_required
 def index():
@@ -18,7 +35,7 @@ def index():
             db.session.commit()
             flash('Document accepted')
             redirect(url_for('index'))
-        return render_template('index.html',docs=Docs.query.order_by(Docs.init_date.desc()).all(),current=g.user.id)
+        return render_template('mydocs.html',docs=Docs.query.filter((Docs.user_id == g.user.id) | (Docs.last_user_id== g.user.id)).all(),current=g.user.id)
     else:
         return redirect(url_for('login'))		
 
