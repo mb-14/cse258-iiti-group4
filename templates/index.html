@@ -3,7 +3,7 @@
 <div id="main" class="container">
     <h2>All Documents</h2>
 <button type="button" class="reset btn btn-primary" data-column="0" data-filter=""><i class="icon-white icon-refresh glyphicon glyphicon-refresh"></i> Reset filters</button>
- <a href="{{ url_for('new') }}" class="btn btn-large btn-success">New Document</a>
+ <a href="{{ url_for('new') }}" class="btn btn-large btn-success"><span class="glyphicon glyphicon-file"></span>New Document</a>
 <br><br>
     <table id="doc_table" class="tablesorter">
 <thead>    
@@ -51,9 +51,9 @@
         <td>{{ doc.get_last_department()}}
         <td>{{ doc.get_last_date() }}
 		{%- if doc.can_forward(current) %}		
-		<td><a href="/forward/{{doc.id}}" class="btn btn-large btn-primary">Forward</a></td>
+		<td><a href="/forward/{{doc.id}}" class="btn btn-large btn-primary"><span class="glyphicon glyphicon-arrow-right"></span>Forward</a></td>
 		{%- elif doc.can_accept(current) %} 
-		<td><form action="" method=post class="form-horizontal"><button id="accept" name="accept" value="{{ doc.id }}" type="submit" class="btn btn-success">Accept</button></form></td>	
+		<td><form action="" method=post class="form-horizontal"><button id="accept" name="accept" value="{{ doc.id }}" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span>Accept</button></form></td>	
 		{%- else %}
 		<td></td>
 		{%- endif %}

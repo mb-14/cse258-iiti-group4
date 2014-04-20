@@ -28,10 +28,15 @@ body {
 						<li {% if request.path == "/" %}class="active"{% endif %}><a href="/">Home</a></li>
 						{% if g.user.is_authenticated()%}
 							<li {% if request.path == "/new" %}class="active"{% endif %}><a href="/new">New Document</a></li>
-							<li><a href="{{ url_for('logout') }}">Logout</a></li>
+                        {% endif %}
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+                        {% if g.user.is_authenticated()%}
+                            <li class="navbar-text">Welcome, {{g.user.fullname}}</li>
+							<li><div><a href="{{ url_for('logout') }}" class="btn navbar-btn btn-danger">Sign out</a></div></li>
 						{% endif %}
 						{% if not g.user.is_authenticated()%}
-							<li {% if request.path == "/login" %}class="active"{% endif %}><a href="{{ url_for('login') }}">Login</a></li>
+							<li {% if request.path == "/login" %}class="active"{% endif %}><div><a class="btn navbar-btn btn-success" href="{{ url_for('login') }}">Sign in</a></div></li>
 						{% endif %}
 					</ul>
 				</div>
