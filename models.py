@@ -77,7 +77,7 @@ class Docs(db.Model):
             return False
 
     def can_accept(self, current):
-        if(self.last_user_id == current and not self.accepted%2==0):
+        if(self.last_user_id == current and not self.accepted%2==0 and self.accepted>=0):
             return True
         else:
             return False

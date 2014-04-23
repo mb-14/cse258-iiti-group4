@@ -89,6 +89,7 @@ def login():
     return redirect(request.args.get('next') or url_for('index'))
 
 @app.route('/forward/<int:doc_id>',methods=['GET','POST'])
+@login_required
 def forward(doc_id):
     doc_item = Docs.query.get(doc_id)
     if request.method == 'GET':
@@ -106,6 +107,19 @@ def forward(doc_id):
     doc_item.log_forward(datetime.now().strftime('%b %d, %G %H:%M %p'),remark)
     db.session.commit()
     flash('Forwarded document successfully')
+    return redirect(url_for('index'))
+
+@app.route('/close/<int:doc_id>',methods=['GET','POST'])
+@login_required
+def close(doc_id):
+    doc_item = Docs.query.get(doc_id)
+    if request.method == 'GET':
+        return render_template('close.html',doc=doc_item)
+    remark = request.form['remark']
+    doc_item.accepted = -1
+    doc_item.log_forward(datetime.now().strftime('%b %d, %G %H:%M %p'),remark)
+    db.session.commit()
+    flash('Closed document successfully')
     return redirect(url_for('index'))
 
 

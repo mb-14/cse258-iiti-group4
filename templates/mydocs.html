@@ -42,7 +42,7 @@
       {%- for doc in docs %}
       <tr>
         <td><a href="/doc/{{ doc.id }}">{{ doc.id }}</a>
-        <td>{{ doc.title }}
+        <td style={{ "text-decoration:line-through" if doc.accepted == -1 }} >{{ doc.title }}
         <td>{{ doc.amount }}</td>
         <td>{{ doc.get_init()}}
 		<td>{{ doc.get_init_department()}}
@@ -51,7 +51,11 @@
         <td>{{ doc.get_last_department()}}
         <td>{{ doc.get_last_date() }}
 		{%- if doc.can_forward(current) %}		
-		<td><a href="/forward/{{doc.id}}" class="btn btn-large btn-primary"><span class="glyphicon glyphicon-arrow-right"></span>Forward</a></td>
+		<td><a href="/forward/{{doc.id}}" class="btn btn-large btn-primary"><span class="glyphicon glyphicon-arrow-right"></span>Forward<a>
+        {%- if doc.get_last_department() == 'Accounts' %}	
+        <a href="/close/{{doc.id}}" class="btn btn-large btn-warning"><span class="glyphicon glyphicon-arrow-right"></span>Close<a>
+        {%- endif %}	
+        </td>
 		{%- elif doc.can_accept(current) %} 
 		<td><form action="" method=post class="form-horizontal"><button id="accept" name="accept" value="{{ doc.id }}" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span>Accept</button></form></td>	
 		{%- else %}
@@ -67,6 +71,8 @@
 
   
 </div>
+
+
 <script>
 $(document).ready(function() { // assuming the table will exist at document.ready
 
