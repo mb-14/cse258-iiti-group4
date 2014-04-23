@@ -13,7 +13,7 @@
         <th>Amount
 		<th>Initiated by
         <th>Department
-        <th>Date
+        <th>Initiation Date
 		<th>Last recieved by
 		<th>Department
         <th>Date
@@ -53,7 +53,7 @@
 		{%- if doc.can_forward(current) %}		
 		<td><a href="/forward/{{doc.id}}" class="btn btn-large btn-primary"><span class="glyphicon glyphicon-arrow-right"></span>Forward<a>
         {%- if doc.get_last_department() == 'Accounts' %}	
-        <a href="/close/{{doc.id}}" class="btn btn-large btn-warning"><span class="glyphicon glyphicon-arrow-right"></span>Close<a>
+        <a href="/close/{{doc.id}}" class="btn btn-large btn-warning"><span class="glyphicon glyphicon-minus-sign"></span>Close<a>
         {%- endif %}	
         </td>
 		{%- elif doc.can_accept(current) %} 
@@ -105,7 +105,7 @@ $("table thead th:eq(5)").data("filter", false);
     theme : "bootstrap",
 
     widthFixed: true,
-    sortList: [[5,1]],
+    sortList: [[8,1]],
     headerTemplate : '{content} {icon}', 
 
     widgets : [ "uitheme", "filter"],
