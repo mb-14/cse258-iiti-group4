@@ -3,7 +3,26 @@ from app import app
 from datetime import datetime
 from models import *
 from flask.ext.login import login_user , logout_user , current_user , login_required
-import json
+from functools import wraps
+
+def canforward(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        doc_id = kwargs['doc_id']
+        if (not Docs.query.get(doc_id).can_forward(g.user.id)):
+            return redirect(url_for('index'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+def canclose(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        doc_id = kwargs['doc_id']
+        if (not (Docs.query.get(doc_id).can_forward(g.user.id) and g.user.department == 'Accounts')):
+            return redirect(url_for('index'))
+        return f(*args, **kwargs)
+    return decorated_function
 
 @app.route('/all', methods=['GET', 'POST'])
 @login_required
@@ -90,6 +109,7 @@ def login():
 
 @app.route('/forward/<int:doc_id>',methods=['GET','POST'])
 @login_required
+@canforward
 def forward(doc_id):
     doc_item = Docs.query.get(doc_id)
     if request.method == 'GET':
@@ -111,6 +131,7 @@ def forward(doc_id):
 
 @app.route('/close/<int:doc_id>',methods=['GET','POST'])
 @login_required
+@canclose
 def close(doc_id):
     doc_item = Docs.query.get(doc_id)
     if request.method == 'GET':
