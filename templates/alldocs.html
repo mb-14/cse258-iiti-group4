@@ -42,7 +42,7 @@
       {%- for doc in docs %}
       <tr>
         <td><a href="/doc/{{ doc.id }}">{{ doc.id }}</a>
-        <td  style={{ "text-decoration:line-through" if doc.accepted == -1 }} >{{ doc.title }}
+        <td  style={{ "text-decoration:line-through" if doc.accepted == -1 }} >{{ doc.title }}</td>
         <td>{{ doc.amount }}</td>
         <td>{{ doc.get_init()}}
 		<td>{{ doc.get_init_department()}}
@@ -103,7 +103,7 @@ $("table thead th:eq(5)").data("filter", false);
     theme : "bootstrap",
 
     widthFixed: true,
-    sortList: [[8,1]],
+    sortList: [[5,1]],
     headerTemplate : '{content} {icon}', 
 
     widgets : [ "uitheme", "filter"],

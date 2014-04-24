@@ -1,5 +1,62 @@
 {% extends "layout.html" %}
 {% block body %}
+<style>
+.typeahead,
+.tt-query,
+.tt-hint {
+  padding: 8px 12px;
+  outline: none;
+}
+
+.typeahead {
+  background-color: #fff;
+}
+
+.typeahead:focus {
+  border: 2px solid #0097cf;
+}
+
+.tt-query {
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.tt-hint {
+  color: #999
+}
+
+.tt-dropdown-menu {
+  width: 300px;
+  margin-top: 12px;
+  padding: 8px 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 8px;
+     -moz-border-radius: 8px;
+          border-radius: 8px;
+  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+          box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.tt-suggestion {
+  padding: 3px 20px;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.tt-suggestion.tt-cursor {
+  color: #fff;
+  background-color: #0097cf;
+
+}
+
+.tt-suggestion p {
+  margin: 0;
+}
+</style>
   <form role="form" class="form-horizontal" action="" method=post>
 	<h2 class="col-sm-offset-2">Forward Document</h2>
 	 <div class="col-sm-offset-2">
@@ -10,7 +67,7 @@
 	<div class="form-group">
 		  <label for="recipient" class="col-sm-2 control-label">Forward To (Email-ID):</label>
 		<div class="col-sm-4">
-          <input type="text" id="recipient" name="recipient" class="form-control"
+          <input type="text" autocomplete="off" id="recipient" name="recipient" class="form-control typeahead"
 			 placeholder="Enter fullname/Email-ID" required>
     </div></div> 
 <div class="form-group">
@@ -25,4 +82,41 @@
   </div>
 
   </form>
+<script>
+var substringMatcher = function(strs) {
+  return function findMatches(q, cb) {
+    var matches, substringRegex;
+ 
+    // an array that will be populated with substring matches
+    matches = [];
+ 
+    // regex used to determine if a string contains the substring `q`
+    substrRegex = new RegExp(q, 'i');
+ 
+    // iterate through the pool of strings and for any string that
+    // contains the substring `q`, add it to the `matches` array
+    $.each(strs, function(i, str) {
+      if (substrRegex.test(str)) {
+        // the typeahead jQuery plugin expects suggestions to a
+        // JavaScript object, refer to typeahead docs for more info
+        matches.push({ value: str });
+      }
+    });
+ 
+    cb(matches);
+  };
+};
+
+var emails = {{ users|tojson|safe }};
+$('#recipient').typeahead({
+  hint: true,
+  highlight: true,
+  minLength: 1
+},
+{
+  name: 'emails',
+  displayKey: 'value',
+  source: substringMatcher(emails)
+});
+</script>
 {% endblock %}

@@ -3,7 +3,7 @@ from app import app
 from datetime import datetime
 from models import *
 from flask.ext.login import login_user , logout_user , current_user , login_required
-
+import json
 
 @app.route('/all', methods=['GET', 'POST'])
 @login_required
@@ -93,7 +93,7 @@ def login():
 def forward(doc_id):
     doc_item = Docs.query.get(doc_id)
     if request.method == 'GET':
-        return render_template('forward.html',doc=doc_item)
+        return render_template('forward.html',doc=doc_item,users = [user.email for user in User.query.all()])
     
     recipient = request.form['recipient']
     fullname = request.form['recipient']
