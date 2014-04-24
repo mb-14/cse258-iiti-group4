@@ -14,7 +14,7 @@ def alldocs():
             doc_item = Docs.query.get(doc_id)
             doc_item.accepted += 1
             doc_item.last_approved = g.user.id
-            doc_item.log_approve(g.user.department,datetime.now().strftime('%b %d, %G %H:%M %p'))
+            doc_item.log_approve(g.user.department,datetime.now().strftime('%b %d, %G %I:%M %p'))
             db.session.commit()
             flash('Document accepted')
             redirect(url_for('alldocs'))
@@ -31,7 +31,7 @@ def index():
             doc_item = Docs.query.get(doc_id)
             doc_item.accepted += 1
             doc_item.last_approved = g.user.id
-            doc_item.log_approve(g.user.department,datetime.now().strftime('%b %d, %G %H:%M %p'))
+            doc_item.log_approve(g.user.department,datetime.now().strftime('%b %d, %G %I:%M %p'))
             db.session.commit()
             flash('Document accepted')
             redirect(url_for('index'))
@@ -104,7 +104,7 @@ def forward(doc_id):
         return redirect(url_for('forward',doc_id=doc_id))
     doc_item.accepted += 1
     doc_item.last_user_id = registered_user.id
-    doc_item.log_forward(datetime.now().strftime('%b %d, %G %H:%M %p'),remark)
+    doc_item.log_forward(datetime.now().strftime('%b %d, %G %I:%M %p'),remark)
     db.session.commit()
     flash('Forwarded document successfully')
     return redirect(url_for('index'))
@@ -117,7 +117,7 @@ def close(doc_id):
         return render_template('close.html',doc=doc_item)
     remark = request.form['remark']
     doc_item.accepted = -1
-    doc_item.log_forward(datetime.now().strftime('%b %d, %G %H:%M %p'),remark)
+    doc_item.log_forward(datetime.now().strftime('%b %d, %G %I:%M %p'),remark)
     db.session.commit()
     flash('Closed document successfully')
     return redirect(url_for('index'))
