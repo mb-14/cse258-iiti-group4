@@ -82,7 +82,9 @@ def new():
 @login_required
 def changepass():
     if request.method == 'POST':
-        if(request.form['newpass'] != request.form['newpass1']):
+        if (not g.user.check_password(request.form['oldpass'])):
+            flash('Current password is incorrect','error')
+        elif (request.form['newpass'] != request.form['newpass1']):
             flash('Password mismatch','error')
         else:
             user = User.query.get(g.user.id)
