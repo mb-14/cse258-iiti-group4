@@ -78,6 +78,20 @@ def new():
     return render_template('new.html')
 
 
+@app.route('/changepass', methods=['GET', 'POST'])
+@login_required
+def changepass():
+    if request.method == 'POST':
+        if(request.form['newpass'] != request.form['newpass1']):
+            flash('Password mismatch','error')
+        else:
+            user = User.query.get(g.user.id)
+            user.set_password(request.form['newpass'])
+            db.session.commit()
+            flash('Password successfully changed')
+            return redirect(url_for('index'))
+    return render_template('changepass.html')
+
 
 @app.route('/doc/<int:doc_id>')
 @login_required
